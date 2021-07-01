@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Playground | Gesture interaction</title>
+		<!-- import aframe and then ar.js with image tracking / location based features -->
+		<script src="https://cdn.jsdelivr.net/gh/aframevr/aframe@1c2407b26c61958baa93967b5412487cd94b290b/dist/aframe-master.min.js"></script>
+		<script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+		<script src="./components.js"></script>
+	</head>
+
+	<body style="margin: 0; overflow: hidden">
+		<a-scene
+			vr-mode-ui="enabled: false;"
+			renderer="logarithmicDepthBuffer: true;"
+			embedded
+			arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false; sourceWidth: 1280; sourceHeight: 720; displayWidth: 1920; displayHeight: 1080;"
+		>
+			<a-entity camera>
+				<a-entity
+					cursor="fuse: true; fuseTimeout: 500"
+					position="0 0 -1"
+					geometry="primitive: ring; radiusInner: 0.02; radiusOuter: 0.03"
+					material="color: black; shader: flat"
+				>
+				</a-entity
+			></a-entity>
+			<a-nft
+				type="nft"
+				url="/playground/gesture-interaction/assets/img/lucifer/luciferHT"
+				smooth="true"
+				smoothCount="10"
+				smoothTolerance=".01"
+				smoothThreshold="5"
+				emitevents="true"
+				id="image-marker"
+			>
+				<a-box color="red"></a-box>
+			</a-nft>
+			<a-nft
+				type="nft"
+				url="/playground/gesture-interaction/assets/img/gallipoli/GallipoliMarker"
+				smooth="true"
+				smoothCount="10"
+				smoothTolerance=".01"
+				smoothThreshold="5"
+				emitevents="true"
+				id="gallipoli-marker"
+			>
+				<a-box
+					cursor-listener
+					color="red"
+					scale="10 10 10"
+					position="100 0 0"
+				></a-box>
+			</a-nft>
+		</a-scene>
+
+		<script defer>
+			const image = document.querySelector('#image-marker');
+			const gallipoli = document.querySelector('#gallipoli-marker');
+
+			image.addEventListener('markerFound', () =>
+				console.log('marker found')
+			);
+			image.addEventListener('markerLost', () =>
+				console.log('marker lost')
+			);
+
+			gallipoli.addEventListener('markerFound', () =>
+				console.log('marker found')
+			);
+			gallipoli.addEventListener('markerLost', () =>
+				console.log('marker lost')
+			);
+
+			function hasBeenClicked() {
+				console.log('The box has been clicked!');
+			}
+		</script>
+	</body>
+</html>
